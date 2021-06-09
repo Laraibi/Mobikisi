@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Medecin;
 
 class MedecinController extends Controller
 {
@@ -14,6 +15,9 @@ class MedecinController extends Controller
     public function index()
     {
         //
+        $Medecins=Medecin::all();
+        return view('Medecin')->with('Medecins');
+        // return view('test');
     }
 
     /**

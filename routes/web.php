@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MedecinController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,8 @@ Route::get('/', function () {
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+route::group(['middlware'=>'auth'],function(){
+    route::resource('Medecin',MedecinController::class);
+});
