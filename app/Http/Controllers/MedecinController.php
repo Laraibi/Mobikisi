@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Medecin;
+use Illuminate\Support\Facades\Storage;
 
 class MedecinController extends Controller
 {
@@ -15,8 +16,8 @@ class MedecinController extends Controller
     public function index()
     {
         //
-        $Medecins=Medecin::all();
-        return view('Medecin')->with('Medecins');
+        $Medecins = Medecin::all();
+        return view('Medecin')->with('Medecins',$Medecins);
         // return view('test');
     }
 
@@ -39,6 +40,23 @@ class MedecinController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'fullName' => 'required',
+            'Specialite' => 'required',
+            'sexe' => 'required',
+            'DateOfBirth' => 'required|date',
+            'photo_path' => 'mimes:jpg,bmp,png'
+        ]);
+        $Medecin=new Medecin($request->except('photo_path'));
+        $Medecin->save();   
+        $request->file('photo_path')->storeAs('/public/Images/Medecins_Photos','Photo_Medecin_'.$Medecin->id.'.'.$request->file('photo_path')->extension());
+        // dd($path);
+        $Medecin->photo_path='Photo_Medecin_'.$Medecin->id.'.'.$request->file('photo_path')->extension();
+        // dd($Medecin->photo_path);
+        $Medecin->save();   
+        $Medecins = Medecin::all();
+        return view('Medecin')->with('Medecins',$Medecins);
+        
     }
 
     /**

@@ -23,6 +23,6 @@ Auth::routes(['register' => false]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-route::group(['middlware'=>'auth'],function(){
+route::group(['middleware'=>'auth'],function(){
     route::resource('Medecin',MedecinController::class);
 });

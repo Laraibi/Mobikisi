@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<img src="asset" alt="">
     <div class="row">
         <a href="#" id="btnModdal" class="btn btn-success">Ajouter</a>
     </div>
