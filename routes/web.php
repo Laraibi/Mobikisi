@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\MedecinController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,3 +26,7 @@ route::group(['middleware'=>'auth'],function(){
 route::get('/test',function(){
     return view('test');
 });
+route::get('/',function(){
+    return view('auth.login');
+});
+
