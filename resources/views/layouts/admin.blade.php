@@ -12,11 +12,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>AdminLTE 3 | Starter</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <style>
-        .container{
-            /* margin-top: 5px; */
-        }
-    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -77,10 +72,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/Medecin" class="nav-link">
+                            <a href="/Patient" class="nav-link">
                                 <i class="fas fa-procedures mr-2"></i>
                                 <p>
                                     Patients
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/MedicalFolder" class="nav-link">
+                                <i class="fas fa-file-medical mr-2"></i>
+                                <p>
+                                    Dossiers Medicaux
                                     <span class="right badge badge-danger">New</span>
                                 </p>
                             </a>
@@ -93,10 +97,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class=" content-wrapper">
-            <div class="container">
+        <div class="content-wrapper">
                 @yield('content')
-            </div>
         </div>
 
         <!-- Main Footer -->

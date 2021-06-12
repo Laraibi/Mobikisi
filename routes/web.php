@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\MedecinController;
+use App\Http\Controllers\MedicalFolderController;
+use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -21,6 +23,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 route::group(['middleware' => 'auth'], function () {
     route::resource('Medecin', MedecinController::class);
+    route::resource('Patient', PatientController::class);
+    route::get('/MedicalFolder',[MedicalFolderController::class,'index'])->name('MedicalFolderIndex');
 });
 
 route::get('/test', function () {

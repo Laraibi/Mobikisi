@@ -49,13 +49,16 @@ class MedecinController extends Controller
         ]);
         $Medecin = new Medecin($request->except('photo_path'));
         $Medecin->save();
-        $request->file('photo_path')->storeAs('/public/Images/Medecins_Photos', 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension());
-        // dd($path);
-        $Medecin->photo_path = 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension();
-        // dd($Medecin->photo_path);
+        if ($request->has('photo_path')) {
+            $request->file('photo_path')->storeAs('/public/Images/Medecins_Photos', 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension());
+            $Medecin->photo_path = 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension();
+        } else {
+            $Medecin->photo_path = 'doc_default.png';
+        }
+
         $Medecin->save();
         $Medecins = Medecin::all();
-        return view('Medecin')->with('Medecins', $Medecins);
+        return view('Medecin')->with(['Medecins' => $Medecins, 'successMsg' => 'Medecin Ajouté']);
     }
 
     /**
@@ -113,7 +116,7 @@ class MedecinController extends Controller
             }
         }
         $Medecins = Medecin::all();
-        return view('Medecin')->with('Medecins', $Medecins);
+        return view('Medecin')->with(['Medecins' => $Medecins, 'successMsg' => 'Medecin Modifié']);
     }
 
     /**
