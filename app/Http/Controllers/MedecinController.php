@@ -17,7 +17,7 @@ class MedecinController extends Controller
     {
         //
         $Medecins = Medecin::all();
-        return view('Medecin')->with('Medecins',$Medecins);
+        return view('Medecin')->with('Medecins', $Medecins);
         // return view('test');
     }
 
@@ -47,16 +47,15 @@ class MedecinController extends Controller
             'DateOfBirth' => 'required|date',
             'photo_path' => 'mimes:jpg,bmp,png'
         ]);
-        $Medecin=new Medecin($request->except('photo_path'));
-        $Medecin->save();   
-        $request->file('photo_path')->storeAs('/public/Images/Medecins_Photos','Photo_Medecin_'.$Medecin->id.'.'.$request->file('photo_path')->extension());
+        $Medecin = new Medecin($request->except('photo_path'));
+        $Medecin->save();
+        $request->file('photo_path')->storeAs('/public/Images/Medecins_Photos', 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension());
         // dd($path);
-        $Medecin->photo_path='Photo_Medecin_'.$Medecin->id.'.'.$request->file('photo_path')->extension();
+        $Medecin->photo_path = 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension();
         // dd($Medecin->photo_path);
-        $Medecin->save();   
+        $Medecin->save();
         $Medecins = Medecin::all();
-        return view('Medecin')->with('Medecins',$Medecins);
-        
+        return view('Medecin')->with('Medecins', $Medecins);
     }
 
     /**
@@ -68,6 +67,8 @@ class MedecinController extends Controller
     public function show($id)
     {
         //
+        $Medecin = Medecin::find($id);
+        return json_encode($Medecin);
     }
 
     /**
@@ -91,6 +92,28 @@ class MedecinController extends Controller
     public function update(Request $request, $id)
     {
         //
+        // echo "hello from update";
+        // dd($request->photo_path);
+        // dd($request);
+        $request->validate([
+            'fullName' => 'required',
+            'Specialite' => 'required',
+            'sexe' => 'required',
+            'DateOfBirth' => 'required|date',
+        ]);
+        $Medecin = Medecin::find($id);
+        if ($Medecin) {
+            $Medecin->update($request->except('photo_path'));
+            if ($request->has('photo_path')) {
+                $request->file('photo_path')->storeAs('/public/Images/Medecins_Photos', 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension());
+                // dd($path);
+                $Medecin->photo_path = 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension();
+                // dd($Medecin->photo_path);
+                $Medecin->save();
+            }
+        }
+        $Medecins = Medecin::all();
+        return view('Medecin')->with('Medecins', $Medecins);
     }
 
     /**
@@ -102,5 +125,12 @@ class MedecinController extends Controller
     public function destroy($id)
     {
         //
+        $Medecin = Medecin::findOrFail($id);
+        if ($Medecin) {
+            $Medecin->delete();
+            return json_encode(array('DeletedID' => $Medecin->id));
+        } else {
+            return response(json_encode(array('error' => 'unknown id')), 404);
+        }
     }
 }

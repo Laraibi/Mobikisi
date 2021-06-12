@@ -19,14 +19,13 @@ Auth::routes(['register' => false]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-route::group(['middleware'=>'auth'],function(){
-    route::resource('Medecin',MedecinController::class);
+route::group(['middleware' => 'auth'], function () {
+    route::resource('Medecin', MedecinController::class);
 });
 
-route::get('/test',function(){
-    return view('test');
+route::get('/test', function () {
+    return view('one');
 });
-route::get('/',function(){
+route::get('/', function () {
     return view('auth.login');
 });
-
