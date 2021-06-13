@@ -151,4 +151,9 @@ class PatientController extends Controller
             return response(json_encode(array('error' => 'unknown id')), 404);
         }
     }
+
+    public function Search($query){
+        $Patients=Patient::where(DB::raw('upper(fullName)'),'like','%'.strtoupper($query).'%')->get();
+        return json_encode($Patients);
+    }
 }

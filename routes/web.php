@@ -5,6 +5,8 @@ use App\Http\Controllers\MedicalFolderController;
 use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Patient;
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,11 +26,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 route::group(['middleware' => 'auth'], function () {
     route::resource('Medecin', MedecinController::class);
     route::resource('Patient', PatientController::class);
+    route::get('/SearchPatients/{query}',[PatientController::class,'Search'])->name('SearchPatients');
     route::get('/MedicalFolder',[MedicalFolderController::class,'index'])->name('MedicalFolderIndex');
 });
 
 route::get('/test', function () {
-    return view('one');
+    // $Patients=Patient::where('fullName','like',''.'Luf'.'*')->get(); 
+    $query='luf';
+    $Patients=Patient::where(DB::raw('upper(fullName)'),'like','%'.strtoupper($query).'%');
+    dd($Patients);
+    // return view('one');
 });
 route::get('/', function () {
     return view('auth.login');

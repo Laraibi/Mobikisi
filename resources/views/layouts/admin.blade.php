@@ -12,10 +12,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>AdminLTE 3 | Starter</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .fa-plus {
+            color: green !important;
+            font-size: 35px;
+            background-color: white !important;
+            border-radius: 10%;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+        </nav>
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
@@ -98,7 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-                @yield('content')
+            @yield('content')
         </div>
 
         <!-- Main Footer -->
@@ -117,7 +133,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- REQUIRED SCRIPTS -->
 
     <!-- AdminLTE App -->
-    {{-- <script src="dist/js/adminlte.min.js"></script> --}}
+    {{--
+    <script src="dist/js/adminlte.min.js"></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
 </body>

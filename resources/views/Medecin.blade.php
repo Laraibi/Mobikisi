@@ -28,9 +28,6 @@
         </ul>
     </div>
     @endif
-    <div class="row">
-        <a href="#" id="btnModdal" class="btn btn-success col-1">Ajouter</a>
-    </div>
     <div class="modal" tabindex="-1" id="addMedecinModal">
         <form action="/Medecin" method="POST" enctype="multipart/form-data">
             @csrf
@@ -123,6 +120,9 @@
         <div class="card w-100" id="doctorsList">
             <div class="card-header">
                 <h3 class="card-title">Liste des Medecins</h3>
+                <div class="card-tools">
+                    <button href="#" id="btnModdal" class="btn btn-tool"><i class="fas fa-plus"></i></button>
+                </div>
             </div>
             <div class="card-body">
                 <ul class="users-list">

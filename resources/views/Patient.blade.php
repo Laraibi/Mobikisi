@@ -28,111 +28,111 @@
         </ul>
     </div>
     @endif
-    <div class="row">
-        <button class="btn btn-success" id="addPatient">Ajouter</button>
-    </div>
-    <div class="modal modal-dialog modal-lg" tabindex="-1" id="addPatientModal">
-        <div class="modal-content">
-            <form action="/Patient" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="_method" value="POST" id="inputMethodValue">
-                <div class="modal-header">
-                    <h4 class="modal-title">Ajouter Patient</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group d-none" id="FG_PatientGID">
-                                <label for="inputPatientGID">Generated ID :</label>
-                                <input type="text" class="form-control" readonly disabled id="inputPatientGID" />
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPatientFN">Full Name :</label>
-                                <input type="text" class="form-control" name="fullName" id="inputPatientFN" />
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="sexe">Sexe :</label>
-                                <div class="form-control" id="sexe">
-                                    <div class="form-ckeck form-check-inline">
-                                        <label class="form-check-label mr-2" for="inputSexeM">M :</label>
-                                        <input type="radio" class="form-check-input" id="inputSexeM" value="1"
-                                            name="sexe" />
+    <div class="modal " tabindex="-1" id="addPatientModal">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+                <form action="/Patient" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="_method" value="POST" id="inputMethodValue">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Ajouter Patient</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group d-none" id="FG_PatientGID">
+                                    <label for="inputPatientGID">Generated ID :</label>
+                                    <input type="text" class="form-control" readonly disabled id="inputPatientGID" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPatientFN">Full Name :</label>
+                                    <input type="text" class="form-control" name="fullName" id="inputPatientFN" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="sexe">Sexe :</label>
+                                    <div class="form-control" id="sexe">
+                                        <div class="form-ckeck form-check-inline">
+                                            <label class="form-check-label mr-2" for="inputSexeM">M :</label>
+                                            <input type="radio" class="form-check-input" id="inputSexeM" value="1"
+                                                name="sexe" />
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label mr-2" for="inputSexeM">F :</label>
+                                            <input type="radio" class="form-check-input" id="inputSexeF" value="2"
+                                                name="sexe" />
+                                        </div>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label mr-2" for="inputSexeM">F :</label>
-                                        <input type="radio" class="form-check-input" id="inputSexeF" value="2"
-                                            name="sexe" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="inputDOB">Date de Naissance :</label>
+                                    <input type="date" name="DateOfBirth" class="form-control" id="inputDOB"
+                                        placeholder="Date de naissance" />
+                                </div>
+                                <div class="row text-center d-flex align-items-center justify-content-center "
+                                    id="previewFile">
+                                    <div class="custom-file col-6">
+                                        <input type="file" class="custom-file-input d-none" name="photo_path"
+                                            id="inputGroupFile01" />
+                                        <button type="button" class="btn btn-secondary" id="browse">
+                                            <i class="fas fa-file-upload"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <img src="{{asset('/storage/Images/Patients_Photos/pat_default.png')}}" alt=""
+                                            class="img-fluid rounded hover-shadow" id="imgMedecin" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="inputDOB">Date de Naissance :</label>
-                                <input type="date" name="DateOfBirth" class="form-control" id="inputDOB"
-                                    placeholder="Date de naissance" />
-                            </div>
-                            <div class="row text-center d-flex align-items-center justify-content-center "
-                                id="previewFile">
-                                <div class="custom-file col-6">
-                                    <input type="file" class="custom-file-input d-none" name="photo_path"
-                                        id="inputGroupFile01" />
-                                    <button type="button" class="btn btn-secondary" id="browse">
-                                        <i class="fas fa-file-upload"></i>
-                                    </button>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="customRange1">Poids <small>(kg)</small>:</label>
+                                    <input type="range" min="30" max="200" class="custom-range" id="inputWeightRange"
+                                        wtx-context="E3A568E7-7021-4E82-B4AD-1A14D4A8E32B">
+                                    <input name="weight_kg" type="text" class="form-control" id="inputWeight" value="115"
+                                        wtx-context="E3A568E7-7021-4E82-B4AD-1A14D4A8E32B">
                                 </div>
-                                <div class="col-6">
-                                    <img src="{{asset('/storage/Images/Patients_Photos/pat_default.png')}}" alt=""
-                                        class="img-fluid rounded hover-shadow" id="imgMedecin" />
+                                <div class="form-group">
+                                    <label for="customRange1">Taille <small>(cm)</small> :</label>
+                                    <input type="range" min="100" max="200" class="custom-range custom-teal"
+                                        id="inputHeightRange" wtx-context="E3A568E7-7021-4E82-B4AD-1A14D4A8E32B">
+                                    <input name="height_cm" type="text" class="form-control" id="inputHeight" value="150"
+                                        wtx-context="E3A568E7-7021-4E82-B4AD-1A14D4A8E32B">
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="customRange1">Poids <small>(kg)</small>:</label>
-                                <input type="range" min="30" max="200" class="custom-range" id="inputWeightRange"
-                                    wtx-context="E3A568E7-7021-4E82-B4AD-1A14D4A8E32B">
-                                <input name="weight_kg" type="text" class="form-control" id="inputWeight" value="115"
-                                    wtx-context="E3A568E7-7021-4E82-B4AD-1A14D4A8E32B">
-                            </div>
-                            <div class="form-group">
-                                <label for="customRange1">Taille <small>(cm)</small> :</label>
-                                <input type="range" min="100" max="200" class="custom-range custom-teal"
-                                    id="inputHeightRange" wtx-context="E3A568E7-7021-4E82-B4AD-1A14D4A8E32B">
-                                <input name="height_cm" type="text" class="form-control" id="inputHeight" value="150"
-                                    wtx-context="E3A568E7-7021-4E82-B4AD-1A14D4A8E32B">
-                            </div>
-                            <div class="form-group">
-                                <label>Groupe Sanguin</label>
-                                <select name="grpSanguin" multiple="" id="SelectGrpSanguin" class="custom-select"
-                                    wtx-context="FDE32BE7-8072-4DAF-BB5E-C3838BC8577D">
-                                    <option value="O+">O+</option>
-                                    <option value="O-">O-</option>
-                                    <option value="A+">A+</option>
-                                    <option value="B+">B+</option>
-                                    <option value="A-">A-</option>
-                                    <option value="B-">B-</option>
-                                    <option value="AB+">AB+</option>
-                                    <option value="AB-">AB-</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPatientFN">Mutuelle :</label>
-                                <input name="Mutuelle" type="text" class="form-control" id="inputPatientMutuelle" />
+                                <div class="form-group">
+                                    <label>Groupe Sanguin</label>
+                                    <select name="grpSanguin" multiple="" id="SelectGrpSanguin" class="custom-select"
+                                        wtx-context="FDE32BE7-8072-4DAF-BB5E-C3838BC8577D">
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="A+">A+</option>
+                                        <option value="B+">B+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPatientFN">Mutuelle :</label>
+                                    <input name="Mutuelle" type="text" class="form-control" id="inputPatientMutuelle" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        Close
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        Save changes
-                    </button>
-                </div>
-            </form>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save changes
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
         <!-- /.modal-content -->
     </div>
@@ -143,6 +143,9 @@
         <div class="card w-100" id="doctorsList">
             <div class="card-header">
                 <h3 class="card-title">Liste des Patients</h3>
+                <div class="card-tools">
+                    <button class="btn btn-tool font-size-6" id="addPatient"><i class="fas fa-plus"></i></button>
+                </div>
             </div>
             <div class="card-body">
                 <ul class="users-list">
