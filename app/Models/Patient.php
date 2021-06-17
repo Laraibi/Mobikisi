@@ -12,4 +12,8 @@ class Patient extends Model
     protected $fillable = [
         'fullName'
     ];
+    public function getGID(){
+        $gid=$this->sexe . '-'.$this->DateOfBirth.'-'.str_pad($this->id, 5, "0", STR_PAD_LEFT);
+        return $gid;
+    }
 }

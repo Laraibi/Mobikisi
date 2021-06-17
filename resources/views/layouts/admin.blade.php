@@ -31,6 +31,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
             </ul>
+            <ul class="navbar-nav ml-auto">
+                <!-- Navbar Search -->
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" style="color:#BC0C37; font-weight: bold; font-size: large;" class="nav-link" data-widget="control-sidebar" data-slide="true" role="button"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-power-off"></i></a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
         </nav>
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -79,7 +90,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="/Medecin" class="nav-link">
+                            <a href="/Medecin" class="nav-link myNav">
                                 <i class="fas fa-user-nurse mr-2"></i>
                                 <p>
                                     Medecins
@@ -88,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/Patient" class="nav-link">
+                            <a href="/Patient" class="nav-link myNav">
                                 <i class="fas fa-procedures mr-2"></i>
                                 <p>
                                     Patients
@@ -97,7 +108,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/MedicalFolder" class="nav-link">
+                            <a href="/MedicalFolder" class="nav-link myNav">
                                 <i class="fas fa-file-medical mr-2"></i>
                                 <p>
                                     Dossiers Medicaux
@@ -136,6 +147,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {{--
     <script src="dist/js/adminlte.min.js"></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        function makeNavLinkActive(index){
+
+            $('.myNav').removeClass('active');
+            $('.myNav').eq(index).addClass('active');
+
+        }
+    </script>
     @yield('scripts')
 </body>
 

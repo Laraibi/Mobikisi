@@ -153,6 +153,7 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
+        makeNavLinkActive(0);
         $('.errorItem').each(function(){
             let msg=$(this).text();
             $(document).Toasts("create", {

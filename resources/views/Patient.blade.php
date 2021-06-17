@@ -162,7 +162,7 @@
                         </button>
                         <img src="{{ asset('/storage/Images/Patients_Photos/' . $Patient->photo_path) }}"
                             alt="User Image" class="hover-shadow" />
-                        <a class="users-list-name" data="{{ $Patient->id }}" href="#">Dr.{{ $Patient->fullName }}
+                        <a class="users-list-name" data="{{ $Patient->id }}" href="#">{{ $Patient->fullName }}
                         </a>
                     </li>
                     @endforeach
@@ -176,6 +176,7 @@
 @section('scripts')
 <script>
     $("document").ready(function () {
+        makeNavLinkActive(1);
         $('.errorItem').each(function () {
             let msg = $(this).text();
             $(document).Toasts("create", {

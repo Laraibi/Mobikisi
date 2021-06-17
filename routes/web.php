@@ -28,6 +28,7 @@ route::group(['middleware' => 'auth'], function () {
     route::resource('Patient', PatientController::class);
     route::get('/SearchPatients/{query}',[PatientController::class,'Search'])->name('SearchPatients');
     route::get('/MedicalFolder',[MedicalFolderController::class,'index'])->name('MedicalFolderIndex');
+    route::post('/getMedicalFolder',[MedicalFolderController::class,'getMedicalFolder'])->name('getMedicalFolder');
 });
 
 route::get('/test', function () {
