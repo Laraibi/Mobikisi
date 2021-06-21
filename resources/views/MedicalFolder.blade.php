@@ -34,41 +34,57 @@
         text-align: center;
     }
 
-    ul{
+    ul {
         list-style: none;
-        margin:0 !important;
-        padding:0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
-    #infosSection ul li{
-        margin:5px;
+
+    #infosSection ul li {
+        margin: 5px;
     }
-    .card-title{
-        font-weight: bold !important ;
-        font-size: 2rem !important; 
+
+    .card-title {
+        font-weight: bold !important;
+        font-size: 0.9rem !important;
     }
-    .card i{
+
+    .card i {
         margin-right: 1rem;
         background-color: #BC0C37;
-        border-radius:20%;
-        color:white;
+        border-radius: 20%;
+        color: white;
         padding: 10px;
         width: 50px;
         text-align: center;
     }
-    .card-header{
-        padding-bottom: 0 !important; 
+
+    .card-header {
+        padding-bottom: 0 !important;
     }
-    .card{
+
+    .card {
         height: 100%;
     }
-    .phoneNumber{
-        padding-left: 20px;
-        border-left: solid 1px black;
-        margin-left: 20px;
+
+    .phoneNumber {
+        font-size: 1rem;
+        /* float: right; */
+        margin-left: 0.5rem;
     }
-    .w-40{
+
+    .fa-phone-volume {
+        margin-right: 0px !important;
+        float: right;
+        /* top: 10%; */
+        position: relative;
+        top: 10px;
+    }
+
+    /* .w-40{
         width:40%;
-    }
+    } */
+
 </style>
 @section('content')
     <div class="px-5">
@@ -121,7 +137,8 @@
 
                         <div class="row">
                             <div class="col-6">
-                                <img id="imgProfile" src="{{ asset('/storage/Images/Patients_Photos/' . $Patient->photo_path) }}"
+                                <img id="imgProfile"
+                                    src="{{ asset('/storage/Images/Patients_Photos/' . $Patient->photo_path) }}"
                                     alt="User Image" class="image-fluid" />
                             </div>
                             <div class="col-6 ">
@@ -139,12 +156,21 @@
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li class="font-weight-bold"><small class="font-weight-none text-secondary mx-2">Sexe:</small>{{$Patient->Sexe == 1 ?'Masculin':'Féminin'}}</li>
-                            <li class="font-weight-bold"><small class="font-weight-none text-secondary mx-2">Date de Naissance:</small>{{$Patient->DateOfBirth}}</li>
-                            <li class="font-weight-bold"><small class="font-weight-none text-secondary mx-2">Poids:</small>{{$Patient->weight_kg}} kg</li>
-                            <li class="font-weight-bold"><small class="font-weight-none text-secondary mx-2">Taille:</small>{{$Patient->height_cm}} cm</li>
-                            <li class="font-weight-bold"><small class="font-weight-none text-secondary mx-2">Groupe sanguin:</small>{{$Patient->grpSanguin}}</li>
-                            <li class="font-weight-bold"><small class="font-weight-none text-secondary mx-2">Mutuelle ou assurance:</small>{{$Patient->Mutuelle}}</li>
+                            <li class="font-weight-bold"><small
+                                    class="font-weight-none text-secondary mx-2">Sexe:</small>{{ $Patient->Sexe == 1 ? 'Masculin' : 'Féminin' }}
+                            </li>
+                            <li class="font-weight-bold"><small class="font-weight-none text-secondary mx-2">Date de
+                                    Naissance:</small>{{ $Patient->DateOfBirth }}</li>
+                            <li class="font-weight-bold"><small
+                                    class="font-weight-none text-secondary mx-2">Poids:</small>{{ $Patient->weight_kg }} kg
+                            </li>
+                            <li class="font-weight-bold"><small
+                                    class="font-weight-none text-secondary mx-2">Taille:</small>{{ $Patient->height_cm }} cm
+                            </li>
+                            <li class="font-weight-bold"><small class="font-weight-none text-secondary mx-2">Groupe
+                                    sanguin:</small>{{ $Patient->grpSanguin }}</li>
+                            <li class="font-weight-bold"><small class="font-weight-none text-secondary mx-2">Mutuelle ou
+                                    assurance:</small>{{ $Patient->Mutuelle }}</li>
                         </ul>
                     </div>
                 </div>
@@ -155,41 +181,109 @@
                         <h3 class="card-title"><i class="fas fa-address-card"></i>Contacts d'urgence</h3>
                     </div>
                     <div class="card-body">
-                        <ul>
-                            <li class="font-weight-bold">
-                               <i class="fas fa-phone-volume font-size-5 float-right"></i>
-                                <div class="row">
-                                    <small class="text-secondary">Epoux</small>
-                                </div>
-                                <div class="row">
-                                    <h6 class="font-weight-bold d-inline w-40"> Amine Laraibi </h6>
-                                    <h6 class=" d-inline phoneNumber">+212 6 49 81 41 09</h6>
-                                </div>
-                            </li>
-                            <li class="font-weight-bold">
-                                <i class="fas fa-phone-volume font-size-5 float-right"></i>
-                                <div class="row">
-                                    <small class="text-secondary">Colocataire</small>
-                                </div>
-                                <div class="row">
-                                    <h6 class="font-weight-bold d-inline w-40"> Hamid El Amine </h6>
-                                    <h6 class=" d-inline phoneNumber">+212 6 49 81 41 09</h6>
-                                </div>
-                            </li>
-                            <li class="font-weight-bold">
-                                <i class="fas fa-phone-volume font-size-5 float-right"></i>
-                                <div class="row">
-                                    <small class="text-secondary">Medecin traitant</small>
-                                </div>
-                                <div class="row">
-                                    <h6 class="font-weight-bold d-inline w-40"> Yassine El Mouss </h6>
-                                    <h6 class=" d-inline phoneNumber">+212 6 49 81 41 09</h6>
-                                </div>
-                            </li>
+                        <ul id="ContactUrgenceList">
+                            @foreach ($Patient->ContactsUrgence as $Contact)
+                                <li class="font-weight-bold">
+                                    <i class="fas fa-phone-volume font-size-5 "></i>
+                                    <div class="row">
+                                        <small class="text-secondary">{{ $Contact->TypeContact }}</small>
+                                    </div>
+                                    <div class="row">
+                                        <h6 class="font-weight-bold d-inline w-40">{{ $Contact->FullName }}</h6>
+                                        <h6 class="d-inline phoneNumber">{{ $Contact->PhoneNumber }}</h6>
+                                    </div>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="card-footer">
-                       <i class="btn fas fa-user-plus"></i>
+                        <i class="btn fas fa-user-plus" id="addContactUrgence"></i>
+                        <div class="modal" id="modalAddContactUrgence" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Ajouter Contact d'Urgence</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="patient-id" id="patient_id" value="{{ $Patient->id }}">
+                                        <div class="form-group">
+                                            <label for="ContactFullName">Full Name:</label>
+                                            <input type="text" name="ContactFullName" id="ContactFullName" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ContactType">Contact Type:</label>
+                                            <input type="text" name="ContactType" id="ContactType" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ContactPhoneNumer">Tel</label>
+                                            <input type="text" name="ContactPhoneNumer" id="ContactPhoneNumer"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row px-5">
+            <div class="col-md-4 col-xs-12" id="contactsSection">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-virus"></i>Allergies & intolérances renseignées</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul id="AllergieList">
+                            @foreach ($Patient->Allergies as $Allergie)
+                                <li class="font-weight-bold">
+                                    <div class="row">
+                                        <small class="text-secondary">{{ $Allergie->AllergieName }}</small>
+                                    </div>
+                                    <div class="row">
+                                        <p>{{ $Allergie->Solution }}</p>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <i class="btn fas fa-user-plus" id="addAllergieBtn"></i>
+                        <div class="modal" id="modalAddAllergie" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Ajouter Allergie</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="patient-id" id="patient_id" value="{{ $Patient->id }}">
+                                        <div class="form-group">
+                                            <label for="AllergieName">Allergie Name:</label>
+                                            <input type="text" name="AllergieName" id="AllergieName" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="AllergieSolution">Solution:</label>
+                                            <input type="textarea" name="AllergieSolution" id="AllergieSolution"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -200,7 +294,6 @@
     <script>
         $(document).ready(function() {
             makeNavLinkActive(2);
-            // alert('hello Blade');
             $('#InputPatientName').keyup(function() {
                 let SearchQuery = $('#InputPatientName').val();
                 if (SearchQuery) {
@@ -227,6 +320,80 @@
             $('ul#patientMatchedList').on('click', 'li', function() {
                 $('#InputPatientName').val($(this).text());
                 $('#searchResponseArea').addClass('d-none');
+            });
+            // add Contact urgence handling
+            $('#addContactUrgence').click(function() {
+                $('#modalAddContactUrgence').modal('toggle');
+            });
+            $('#modalAddContactUrgence .btn-primary').click(function() {
+                let formdata = {
+                    _token: $("meta[name=csrf-token]").attr("content"),
+                    'patient_id': $('#patient_id').val(),
+                    'ContactFullName': $('#ContactFullName').val(),
+                    'ContactType': $('#ContactType').val(),
+                    'ContactPhoneNumer': $('#ContactPhoneNumer').val()
+                };
+                $.ajax({
+                    url: '/addContactUrgence',
+                    type: 'post',
+                    data: formdata,
+                    dataType: 'json',
+                    error: (error) => {
+                        console.log(error);
+                    },
+                    success: (data) => {
+                        console.log(data);
+                        let trDom = $(`<li class="font-weight-bold">
+                                                                    <i class="fas fa-phone-volume font-size-5 "></i>
+                                                                    <div class="row">
+                                                                        <small class="text-secondary"></small>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <h6 class="font-weight-bold d-inline w-40"></h6>
+                                                                        <h6 class="d-inline phoneNumber"></h6>
+                                                                    </div>
+                                                                </li>`);
+                        $(trDom).find('small').text(data.TypeContact);
+                        $(trDom).find('h6').eq(0).text(data.FullName);
+                        $(trDom).find('h6').eq(1).text(data.PhoneNumber);
+                        $('ul#ContactUrgenceList').append(trDom);
+                    }
+                });
+            });
+            // add Allergie Handling
+            $('#addAllergieBtn').click(function() {
+                $('#modalAddAllergie').modal('toggle');
+            });
+            $('#modalAddAllergie .btn-primary').click(function() {
+                let formdata = {
+                    _token: $("meta[name=csrf-token]").attr("content"),
+                    'patient_id': $('#patient_id').val(),
+                    'AllergieName': $('#AllergieName').val(),
+                    'AllergieSolution': $('#AllergieSolution').val(),
+                };
+                $.ajax({
+                    url: '/addAllergie',
+                    type: 'post',
+                    data: formdata,
+                    dataType: 'json',
+                    error: (error) => {
+                        console.log(error);
+                    },
+                    success: (data) => {
+                        console.log(data);
+                        let trDom = $(`<li class="font-weight-bold">
+                                            <div class="row">
+                                                <small class="text-secondary"></small>
+                                            </div>
+                                            <div class="row">
+                                                <p></p>
+                                            </div>
+                                        </li>`);
+                        $(trDom).find('small').text(data.AllergieName);
+                        $(trDom).find('p').text(data.Solution);
+                        $('ul#AllergieList').append(trDom);
+                    }
+                });
             });
         });
 

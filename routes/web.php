@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AllergieController;
+use App\Http\Controllers\ContactUrgenceController;
 use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\MedicalFolderController;
 use App\Http\Controllers\PatientController;
@@ -29,6 +31,8 @@ route::group(['middleware' => 'auth'], function () {
     route::get('/SearchPatients/{query}',[PatientController::class,'Search'])->name('SearchPatients');
     route::get('/MedicalFolder',[MedicalFolderController::class,'index'])->name('MedicalFolderIndex');
     route::post('/getMedicalFolder',[MedicalFolderController::class,'getMedicalFolder'])->name('getMedicalFolder');
+    route::post('/addContactUrgence',[ContactUrgenceController::class,'addContactToPatient'])->name('addContactUrgence');
+    route::post('/addAllergie',[AllergieController::class,'addAllergieToPatient'])->name('addAllergie');
 });
 
 route::get('/test', function () {
