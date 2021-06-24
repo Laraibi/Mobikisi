@@ -254,7 +254,7 @@
             </div>
         </div>
         <div class="row my-2">
-            <div class="col-md-4 col-xs-12" id="contactsSection">
+            <div class="col-md-4 col-xs-12" id="AllergiesSection">
                 <div class="card panel">
                     <div class="card-header">
                         <h3 class="card-title"><i class="fas fa-virus"></i>Allergies & intolérances renseignées</h3>
@@ -320,6 +320,74 @@
                     </div>
                 </div>
             </div>
+            {{-- Pathologie --}}
+            <div class="col-md-4 col-xs-12" id="PathologiesSection">
+                <div class="card panel">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-disease"></i>Pathologies renseignées</h3>
+                    </div>
+                    <div class="card-body  ">
+                        <div id="PathologieList" class="accordion mx-2">
+                            @foreach ($Patient->Pathologies as $Pathologie)
+                                <div class="card">
+                                    <div class="card-header py-0" id="headingTwo_{{ $Pathologie->id }}">
+                                        <h2 class="mb-0">
+                                            <small class="btn btn-LINK-secondary btn-link btn-block text-left collapsed"
+                                                type="button" data-toggle="collapse"
+                                                data-target="#collapseTwo_{{ $Pathologie->id }}" aria-expanded="false"
+                                                aria-controls="collapseTwo_{{ $Pathologie->id }}">
+                                                {{ $Pathologie->Name }} </small>
+
+                                        </h2>
+                                    </div>
+                                    <div class="collapse" id="collapseTwo_{{ $Pathologie->id }}"
+                                        aria-labelledby="headingTwo_{{ $Pathologie->id }}" data-parent="#AllergieList">
+                                        <div class="card-body">
+                                            <p>
+                                                {{ $Pathologie->solution }}
+                                            </p>
+                                            <i class="fas fa-trash text-danger text-bold float-right deleteAllergie"
+                                                Pathologie-id="{{ $Pathologie->id }}"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <i class="btn fas fa-plus" id="addPathologieeBtn"></i>
+                        <div class="modal" id="modalAddPathologie" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Ajouter Pathologie</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="patient-id" id="patient_id" value="{{ $Patient->id }}">
+                                        <div class="form-group">
+                                            <label for="PathologieName">Pathologie Name:</label>
+                                            <input type="text" name="PathologieName" id="PathologieName" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="PathologieSolution">Solution:</label>
+                                            <textarea type="textarea" name="PathologieSolution" id="PathologieSolution"
+                                                class="form-control" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- End Pathologie --}}
         </div>
     @endisset
 @endsection
@@ -455,7 +523,7 @@
                     }
                 });
             });
-            $('.card').on('click', '.fa-trash', function(event) {
+            $('#AllergiesSection .card').on('click', '.fa-trash', function(event) {
                 event.stopPropagation();
                 let formdata = {
                     _token: $("meta[name=csrf-token]").attr("content"),
@@ -480,6 +548,100 @@
                         $(document).Toasts("create", {
                             title: "Mobikisi",
                             body: 'Allergie Supprimée',
+                            autohide: true,
+                            delay: 2000,
+                            class: "bg-success",
+                        });
+                        $(this).parent().parent().parent().remove();
+                    }
+                });
+            });
+            // add Pathologie Handling
+            $('#addPathologieeBtn').click(function() {
+                $('#modalAddPathologie').modal('toggle');
+            });
+            $('#modalAddPathologie .btn-primary').click(function() {
+                let formdata = {
+                    _token: $("meta[name=csrf-token]").attr("content"),
+                    'patient_id': $('#patient_id').val(),
+                    'PathologieName': $('#PathologieName').val(),
+                    'PathologieSolution': $('#PathologieSolution').val(),
+                };
+                $.ajax({
+                    url: '/addPathologie',
+                    type: 'post',
+                    data: formdata,
+                    dataType: 'json',
+                    error: (error) => {
+                        console.log(error.responseText);
+                    },
+                    success: (data) => {
+                        // console.log(data);
+                        let trDom = $(`   <div class="card">
+                                    <div class="card-header" id="">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-LINK-secondary btn-link btn-block text-left collapsed"
+                                                type="button" data-toggle="collapse"
+                                                data-target="" aria-expanded="false"
+                                                aria-controls="">/button>
+                                        </h2>
+                                    </div>
+                                    <div class="collapse" id=""
+                                        aria-labelledby="" data-parent="#PathologieList">
+                                        <div class="card-body">
+                                            <p></p>
+                                            <i class="fas fa-trash text-danger text-bold float-right deletePathologie" Pathologie-id=""></i>
+                                        </div>
+                                    </div>
+                                </div>`);
+                        $(trDom).find('.btn-LINK-secondary').text(data.Name);
+                        $(trDom).find('.btn-LINK-secondary').attr('data-target',
+                            '#collapseTwo_' + data.id);
+                        $(trDom).find('.btn-LINK-secondary').attr('aria-controls',
+                            'collapseTwo_' + data.id);
+                        $(trDom).find('.card-body p').text(data.solution);
+                        $(trDom).find('.card-body i').attr('Pathologie-id', data.id);
+                        $(trDom).find('.card-header').attr('id', 'headingTwo_' + data.id);
+                        $(trDom).find('.collapse').attr('id', 'collapseTwo_' + data.id);
+                        $(trDom).find('.collapse').attr('aria-labelledby', 'headingTwo_' + data
+                            .id);
+                        $('#PathologieList').append(trDom);
+                        $('#modalAddPathologie').modal('toggle');
+                        $(document).Toasts("create", {
+                            title: "Mobikisi",
+                            body: 'Pathologie Ajoutée',
+                            autohide: true,
+                            delay: 2000,
+                            class: "bg-success",
+                        });
+                    }
+                });
+            });
+            $('#PathologiesSection .card').on('click', '.fa-trash', function(event) {
+                event.stopPropagation();
+                let formdata = {
+                    _token: $("meta[name=csrf-token]").attr("content"),
+                    'PathologieID': $(this).attr('Pathologie-id'),
+                };
+                // alert();
+                $.ajax({
+                    url: '/deletePathologie',
+                    type: 'post',
+                    data: formdata,
+                    error: (error) => {
+                        console.log(error.responseText);
+                        $(document).Toasts("create", {
+                            title: "Mobikisi",
+                            body: error.responseText,
+                            autohide: true,
+                            delay: 2000,
+                            class: "bg-danger",
+                        });
+                    },
+                    success: (data) => {
+                        $(document).Toasts("create", {
+                            title: "Mobikisi",
+                            body: 'Pathologie Supprimée',
                             autohide: true,
                             delay: 2000,
                             class: "bg-success",

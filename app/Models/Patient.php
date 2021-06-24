@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Allergie;
+use App\Models\Pathologie;
 class Patient extends Model
 {
     use HasFactory;
@@ -21,5 +22,8 @@ class Patient extends Model
     }
     public function Allergies(){
         return $this->hasMany(Allergie::class,'patient_id');
+    }
+    public function Pathologies(){
+        return $this->hasMany(Pathologie::class,'patient_id');
     }
 }
