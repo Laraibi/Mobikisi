@@ -13,12 +13,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
-        .fa-plus {
+        .card-header .fa-plus {
             color: green !important;
             font-size: 35px;
             background-color: white !important;
             border-radius: 10%;
         }
+
+        aside {
+            height: 100% !important;
+            position: fixed !important;
+        }
+        .content-wrapper{
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        @media only screen and (min-width: 992px) {
+
+            /* For mobile phones: */
+            .content-wrapper {
+                margin: 10px 10px 10px 260px !important;
+            }
+        }
+
     </style>
 </head>
 
@@ -34,8 +52,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
                 <li class="nav-item">
-                    <a href="{{ route('logout') }}" style="color:#BC0C37; font-weight: bold; font-size: large;" class="nav-link" data-widget="control-sidebar" data-slide="true" role="button"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-power-off"></i></a>
+                    <a href="{{ route('logout') }}" style="color:#BC0C37; font-weight: bold; font-size: large;"
+                        class="nav-link" data-widget="control-sidebar" data-slide="true" role="button"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                            class="fas fa-power-off"></i></a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -72,18 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </div>
 
-                <!-- SidebarSearch Form -->
-                <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-                        <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                                <i class="fas fa-search fa-fw"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- Sidebar Menu -->
                 <nav class="">
@@ -129,7 +138,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
 
         <!-- Main Footer -->
-        <footer class="main-footer">
+        <footer class="main-footer  ">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
                 Anything you want
@@ -148,7 +157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="dist/js/adminlte.min.js"></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
-        function makeNavLinkActive(index){
+        function makeNavLinkActive(index) {
 
             $('.myNav').removeClass('active');
             $('.myNav').eq(index).addClass('active');

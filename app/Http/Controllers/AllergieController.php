@@ -13,7 +13,7 @@ class AllergieController extends Controller
     public function addAllergieToPatient(Request $request){
         $request->validate([
             'patient_id'=>'required|Numeric',
-            'AllergieName'=>'required|Min:10',
+            'AllergieName'=>'required|Min:5',
             'AllergieSolution'=>'required'
         ]);
         $patient=Patient::find($request->patient_id);
@@ -24,6 +24,17 @@ class AllergieController extends Controller
             $Allergie->Solution=$request->AllergieSolution;
             $Allergie->save();
             return Response($Allergie,200);
+        }else{
+            return Response('Patient Not Found',404);
+        }
+
+    }
+    public function deleteAllergie(Request $request){
+        $request->validate(['AllergieID'=>'required|Numeric']);
+        $Allergie=Allergie::find($request->AllergieID);
+        if($Allergie){
+            $Allergie->delete();
+            return Response('Allergie Deleted',200);
         }else{
             return Response('Patient Not Found',404);
         }

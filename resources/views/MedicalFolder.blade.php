@@ -1,8 +1,23 @@
 @extends('layouts.admin')
 <style>
+    #searchResponseArea {
+        position: relative;
+        margin: 0 !important;
+        /* padding: 0 !important; */
+    }
+
+    form {
+        margin: 0 !important;
+        /* padding: 0 !important; */
+    }
+
     ul#patientMatchedList {
         list-style: none;
         width: 100%;
+        position: absolute;
+        z-index: 9009;
+        width: 60%;
+        /* top: 0px; */
     }
 
     ul#patientMatchedList li {
@@ -41,7 +56,7 @@
     }
 
     #infosSection ul li {
-        margin: 5px;
+        /* margin: 5px; */
     }
 
     .card-title {
@@ -49,7 +64,7 @@
         font-size: 0.9rem !important;
     }
 
-    .card i {
+    .card i:not(.fa-trash) {
         margin-right: 1rem;
         background-color: #BC0C37;
         border-radius: 20%;
@@ -59,11 +74,15 @@
         text-align: center;
     }
 
+    .fa-trash {
+        cursor: pointer;
+    }
+
     .card-header {
         padding-bottom: 0 !important;
     }
 
-    .card {
+    .card.panel {
         height: 100%;
     }
 
@@ -81,13 +100,13 @@
         top: 10px;
     }
 
-    /* .w-40{
-        width:40%;
-    } */
+    .btn-link {
+        text-decoration: none;
+    }
 
 </style>
 @section('content')
-    <div class="px-5">
+    <div class="">
         @if ($errors->any())
             <div class="d-none" id="errors">
                 <ul>
@@ -105,10 +124,10 @@
             </div>
         @endisset
         <div class="row">
-            <h2>Dossier Medical</h2>
+            <h2 class="col-6">Dossier Medical</h2>
         </div>
         <form action="{{ route('getMedicalFolder') }}" method="post">
-            <div class="row">
+            <div class="row m-0">
                 <div class="col-6">
                     <!-- <input type="hidden" value="" id="inputHiddenID"/> -->
                     @csrf
@@ -127,9 +146,9 @@
         </div>
     </div>
     @isset($Patient)
-        <div class="row px-5">
+        <div class="row my-2">
             <div class="col-md-4 col-xs-12 " id="profileSection">
-                <div class="card">
+                <div class="card panel">
                     <div class="card-header">
                         <h3 class="card-title"><i class="fas fa-user-alt"></i>Profile</h3>
                     </div>
@@ -150,7 +169,7 @@
                 </div>
             </div>
             <div class="col-md-4 col-xs-12" id="infosSection">
-                <div class="card">
+                <div class="card panel">
                     <div class="card-header">
                         <h3 class="card-title"><i class="fas fa-info"></i>Informations Générales</h3>
                     </div>
@@ -176,7 +195,7 @@
                 </div>
             </div>
             <div class="col-md-4 col-xs-12" id="contactsSection">
-                <div class="card">
+                <div class="card panel">
                     <div class="card-header">
                         <h3 class="card-title"><i class="fas fa-address-card"></i>Contacts d'urgence</h3>
                     </div>
@@ -234,28 +253,42 @@
                 </div>
             </div>
         </div>
-        <div class="row px-5">
+        <div class="row my-2">
             <div class="col-md-4 col-xs-12" id="contactsSection">
-                <div class="card">
+                <div class="card panel">
                     <div class="card-header">
                         <h3 class="card-title"><i class="fas fa-virus"></i>Allergies & intolérances renseignées</h3>
                     </div>
-                    <div class="card-body">
-                        <ul id="AllergieList">
+                    <div class="card-body  ">
+                        <div id="AllergieList" class="accordion mx-2">
                             @foreach ($Patient->Allergies as $Allergie)
-                                <li class="font-weight-bold">
-                                    <div class="row">
-                                        <small class="text-secondary">{{ $Allergie->AllergieName }}</small>
+                                <div class="card">
+                                    <div class="card-header py-0" id="headingTwo_{{ $Allergie->id }}">
+                                        <h2 class="mb-0">
+                                            <small class="btn btn-LINK-secondary btn-link btn-block text-left collapsed"
+                                                type="button" data-toggle="collapse"
+                                                data-target="#collapseTwo_{{ $Allergie->id }}" aria-expanded="false"
+                                                aria-controls="collapseTwo_{{ $Allergie->id }}">
+                                                {{ $Allergie->AllergieName }} </small>
+
+                                        </h2>
                                     </div>
-                                    <div class="row">
-                                        <p>{{ $Allergie->Solution }}</p>
+                                    <div class="collapse" id="collapseTwo_{{ $Allergie->id }}"
+                                        aria-labelledby="headingTwo_{{ $Allergie->id }}" data-parent="#AllergieList">
+                                        <div class="card-body">
+                                            <p>
+                                                {{ $Allergie->Solution }}
+                                            </p>
+                                            <i class="fas fa-trash text-danger text-bold float-right deleteAllergie"
+                                                Allergie-id="{{ $Allergie->id }}"></i>
+                                        </div>
                                     </div>
-                                </li>
+                                </div>
                             @endforeach
-                        </ul>
+                        </div>
                     </div>
                     <div class="card-footer">
-                        <i class="btn fas fa-user-plus" id="addAllergieBtn"></i>
+                        <i class="btn fas fa-plus" id="addAllergieBtn"></i>
                         <div class="modal" id="modalAddAllergie" tabindex="-1">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -273,8 +306,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="AllergieSolution">Solution:</label>
-                                            <input type="textarea" name="AllergieSolution" id="AllergieSolution"
-                                                class="form-control">
+                                            <textarea type="textarea" name="AllergieSolution" id="AllergieSolution"
+                                                class="form-control" rows="3"></textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -357,6 +390,7 @@
                         $(trDom).find('h6').eq(0).text(data.FullName);
                         $(trDom).find('h6').eq(1).text(data.PhoneNumber);
                         $('ul#ContactUrgenceList').append(trDom);
+                        $('#modalAddContactUrgence').modal('toggle');
                     }
                 });
             });
@@ -377,25 +411,83 @@
                     data: formdata,
                     dataType: 'json',
                     error: (error) => {
-                        console.log(error);
+                        console.log(error.responseText);
                     },
                     success: (data) => {
-                        console.log(data);
-                        let trDom = $(`<li class="font-weight-bold">
-                                            <div class="row">
-                                                <small class="text-secondary"></small>
-                                            </div>
-                                            <div class="row">
-                                                <p></p>
-                                            </div>
-                                        </li>`);
-                        $(trDom).find('small').text(data.AllergieName);
-                        $(trDom).find('p').text(data.Solution);
-                        $('ul#AllergieList').append(trDom);
+                        // console.log(data);
+                        let trDom = $(`   <div class="card">
+                                    <div class="card-header" id="">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-LINK-secondary btn-link btn-block text-left collapsed"
+                                                type="button" data-toggle="collapse"
+                                                data-target="" aria-expanded="false"
+                                                aria-controls="">/button>
+                                        </h2>
+                                    </div>
+                                    <div class="collapse" id=""
+                                        aria-labelledby="" data-parent="#AllergieList">
+                                        <div class="card-body">
+                                            <p></p>
+                                            <i class="fas fa-trash text-danger text-bold float-right deleteAllergie" Allergie-id=""></i>
+                                        </div>
+                                    </div>
+                                </div>`);
+                        $(trDom).find('.btn-LINK-secondary').text(data.AllergieName);
+                        $(trDom).find('.btn-LINK-secondary').attr('data-target',
+                            '#collapseTwo_' + data.id);
+                        $(trDom).find('.btn-LINK-secondary').attr('aria-controls',
+                            'collapseTwo_' + data.id);
+                        $(trDom).find('.card-body p').text(data.Solution);
+                        $(trDom).find('.card-body i').attr('Allergie-id', data.id);
+                        $(trDom).find('.card-header').attr('id', 'headingTwo_' + data.id);
+                        $(trDom).find('.collapse').attr('id', 'collapseTwo_' + data.id);
+                        $(trDom).find('.collapse').attr('aria-labelledby', 'headingTwo_' + data
+                            .id);
+                        $('#AllergieList').append(trDom);
+                        $('#modalAddAllergie').modal('toggle');
+                        $(document).Toasts("create", {
+                            title: "Mobikisi",
+                            body: 'Allergie Ajoutée',
+                            autohide: true,
+                            delay: 2000,
+                            class: "bg-success",
+                        });
+                    }
+                });
+            });
+            $('.card').on('click', '.fa-trash', function(event) {
+                event.stopPropagation();
+                let formdata = {
+                    _token: $("meta[name=csrf-token]").attr("content"),
+                    'AllergieID': $(this).attr('Allergie-id'),
+                };
+                // alert();
+                $.ajax({
+                    url: '/deleteAllergie',
+                    type: 'post',
+                    data: formdata,
+                    error: (error) => {
+                        console.log(error.responseText);
+                        $(document).Toasts("create", {
+                            title: "Mobikisi",
+                            body: error.responseText,
+                            autohide: true,
+                            delay: 2000,
+                            class: "bg-danger",
+                        });
+                    },
+                    success: (data) => {
+                        $(document).Toasts("create", {
+                            title: "Mobikisi",
+                            body: 'Allergie Supprimée',
+                            autohide: true,
+                            delay: 2000,
+                            class: "bg-success",
+                        });
+                        $(this).parent().parent().parent().remove();
                     }
                 });
             });
         });
-
     </script>
 @endsection

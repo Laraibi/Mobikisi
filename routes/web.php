@@ -33,6 +33,7 @@ route::group(['middleware' => 'auth'], function () {
     route::post('/getMedicalFolder',[MedicalFolderController::class,'getMedicalFolder'])->name('getMedicalFolder');
     route::post('/addContactUrgence',[ContactUrgenceController::class,'addContactToPatient'])->name('addContactUrgence');
     route::post('/addAllergie',[AllergieController::class,'addAllergieToPatient'])->name('addAllergie');
+    route::post('/deleteAllergie',[AllergieController::class,'deleteAllergie'])->name('deleteAllergie');
 });
 
 route::get('/test', function () {
