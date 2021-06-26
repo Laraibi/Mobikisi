@@ -35,7 +35,7 @@ class PathologieController extends Controller
             $Pathologie->delete();
             return Response('Pathologie Deleted',200);
         }else{
-            return Response('Patient Not Found',404);
+            return Response('Pathologie Not Found',404);
         }
 
     }

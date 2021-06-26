@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TraitementController;
 use App\Http\Controllers\AllergieController;
 use App\Http\Controllers\PathologieController;
 use App\Http\Controllers\ContactUrgenceController;
@@ -37,6 +38,9 @@ route::group(['middleware' => 'auth'], function () {
     route::post('/deleteAllergie',[AllergieController::class,'deleteAllergie'])->name('deleteAllergie');
     route::post('/addPathologie',[PathologieController::class,'addPathologieToPatient'])->name('addPathologie');
     route::post('/deletePathologie',[PathologieController::class,'deletePathologie'])->name('deletePathologie');
+    route::post('/addTraitement',[TraitementController::class,'addTraitementToPatient'])->name('addTraitement');
+    route::post('/deleteTraitement',[TraitementController::class,'deleteTraitement'])->name('deleteTraitement');
+
 });
 
 route::get('/test', function () {

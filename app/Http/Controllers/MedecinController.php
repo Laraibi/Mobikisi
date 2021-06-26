@@ -53,7 +53,7 @@ class MedecinController extends Controller
             $request->file('photo_path')->storeAs('/public/Images/Medecins_Photos', 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension());
             $Medecin->photo_path = 'Photo_Medecin_' . $Medecin->id . '.' . $request->file('photo_path')->extension();
         } else {
-            $Medecin->photo_path = 'doc_default.png';
+            $Medecin->photo_path = 'doc_default.jpg';
         }
 
         $Medecin->save();

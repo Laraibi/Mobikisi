@@ -97,7 +97,7 @@
                             <div class="col-6">
                                 <img src="{{
                                         asset(
-                                            '/storage/Images/Medecins_Photos/doc_default.png'
+                                            '/storage/Images/Medecins_Photos/doc_default.jpg'
                                         )
                                     }}" alt="" class="img-fluid rounded hover-shadow" id="imgMedecin" />
                             </div>

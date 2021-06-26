@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Allergie;
 use App\Models\Pathologie;
+use App\Models\Traitement;
 class Patient extends Model
 {
     use HasFactory;
@@ -25,5 +26,8 @@ class Patient extends Model
     }
     public function Pathologies(){
         return $this->hasMany(Pathologie::class,'patient_id');
+    }
+    public function Traitements(){
+        return $this->hasMany(Traitement::class,'patient_id');
     }
 }

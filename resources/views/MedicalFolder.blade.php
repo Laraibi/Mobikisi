@@ -83,7 +83,7 @@
     }
 
     .card.panel {
-        height: 100%;
+        /* height: 100%; */
     }
 
     .phoneNumber {
@@ -326,7 +326,7 @@
                     <div class="card-header">
                         <h3 class="card-title"><i class="fas fa-disease"></i>Pathologies renseignées</h3>
                     </div>
-                    <div class="card-body  ">
+                    <div class="card-body">
                         <div id="PathologieList" class="accordion mx-2">
                             @foreach ($Patient->Pathologies as $Pathologie)
                                 <div class="card">
@@ -341,7 +341,7 @@
                                         </h2>
                                     </div>
                                     <div class="collapse" id="collapseTwo_{{ $Pathologie->id }}"
-                                        aria-labelledby="headingTwo_{{ $Pathologie->id }}" data-parent="#AllergieList">
+                                        aria-labelledby="headingTwo_{{ $Pathologie->id }}" data-parent="#PathologieList">
                                         <div class="card-body">
                                             <p>
                                                 {{ $Pathologie->solution }}
@@ -388,6 +388,126 @@
                 </div>
             </div>
             {{-- End Pathologie --}}
+            {{-- Traitements --}}
+            <div class="col-md-4 col-xs-12" id="TraitementsSection">
+                <div class="card panel">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-pills"></i>Traitements renseignées</h3>
+                    </div>
+                    <div class="card-body  ">
+                        <div id="TraitementsList" class="accordion mx-2">
+                            @foreach ($Patient->Traitements as $Traitement)
+                                <div class="card">
+                                    <div class="card-header py-0" id="headingTwo_{{ $Traitement->id }}">
+                                        <h6> <small class="text-small text-secondary float-right font-"> Depuis Le :
+                                                {{ $Traitement->Date_Debut }}</small></h6>
+                                        <h2 class="mb-0">
+                                            <small class="btn btn-LINK-secondary btn-link btn-block text-left collapsed"
+                                                type="button" data-toggle="collapse"
+                                                data-target="#collapseTwo_{{ $Traitement->id }}" aria-expanded="false"
+                                                aria-controls="collapseTwo_{{ $Traitement->id }}">
+                                                {{ $Traitement->Nom_Medicament }} </small>
+                                        </h2>
+                                    </div>
+                                    <div class="collapse" id="collapseTwo_{{ $Traitement->id }}"
+                                        aria-labelledby="headingTwo_{{ $Traitement->id }}" data-parent="#TraitementsList">
+                                        <div class="card-body">
+                                            <p>
+                                                Durée du traitement : <strong>{{ $Traitement->duree }} jours</strong>
+                                            </p>
+                                            <p class="float-right">
+                                                <i class="fas fa-trash text-danger text-bold   btn btn-sm deleteTraitement"
+                                                    Traitement-id="{{ $Traitement->id }}"></i>
+                                                <a href="#" class="btn btn-secondary btn-sm" data-toggle="modal"
+                                                    data-target="#OrdonnanceModal_{{ $Traitement->id }}">Voir Ordonnance</a>
+                                                <!-- Modal -->
+                                            <div class="modal fade" id="OrdonnanceModal_{{ $Traitement->id }}" tabindex="-1"
+                                                aria-labelledby="OrdonnanceModal_{{ $Traitement->id }}_Label"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="OrdonnanceModal_{{ $Traitement->id }}_Label">Ordonnance
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img class="img-fluid rounded"
+                                                                src="{{ asset('/storage/Images/Ordonnances/' . $Traitement->ordonnance_path) }}"
+                                                                alt="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <i class="btn fas fa-plus" id="addTraitementBtn"></i>
+                        <div class="modal" id="modalAddTraitement" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Ajouter Traitement</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="TraitementForm" enctype="multipart/form-data">
+                                            <input type="hidden" name="patient-id" id="patient_id"
+                                                value="{{ $Patient->id }}">
+                                            <div class="form-group">
+                                                <label for="TraitementName">Nom Medicament:</label>
+                                                <input type="text" placeholder="Depakine, Ventoline ..." name="TraitementName"
+                                                    id="TraitementName" class="form-control">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="TraitementStartDate"> Date Debut:</label>
+                                                <input type="date" name="TraitementStartDate" class="form-control"
+                                                    id="TraitementStartDate" placeholder="Date Debut" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="TraitmentDurationDays">Duree en jours:</label>
+                                                <input type="number" name="TraitmentDurationDays" class="form-control"
+                                                    id="TraitmentDurationDays" placeholder="Duree(j)" />
+                                            </div>
+                                            <div class="row text-center d-flex align-items-center justify-content-center "
+                                                id="previewFile">
+                                                <div class="custom-file col-6">
+                                                    <h5>Ordonannce</h5>
+                                                    <input type="file" class="custom-file-input d-none" name="OrdonnanceImage"
+                                                        id="inputGroupFile01" />
+                                                    <button type="button" class="btn" id="browse">
+                                                        <i class="fas fa-file-upload"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-6">
+                                                    <img src="{{ asset('/storage/Images/Ordonnances/Ordonnance_Default.jpg') }}"
+                                                        alt="" class="img-fluid rounded hover-shadow" id="imgMedecin" />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- End Traitements --}}
         </div>
     @endisset
 @endsection
@@ -647,6 +767,161 @@
                             class: "bg-success",
                         });
                         $(this).parent().parent().parent().remove();
+                    }
+                });
+            });
+            // Traitement Crud Handling:
+            $("#inputGroupFile01").change(function(input) {
+                var file = $("input[type=file]").get(0).files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        $("#previewFile img").attr("src", reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            $("#browse").click(function() {
+                $("#inputGroupFile01").click();
+            });
+            $('#addTraitementBtn').click(() => {
+                $('#modalAddTraitement').modal('toggle')
+            })
+            $('#modalAddTraitement .btn-primary').click(function() {
+                let fd = new FormData();
+                fd.append('_token', $("meta[name=csrf-token]").attr("content"));
+                fd.append('patient_id', $('#patient_id').val());
+                fd.append('TraitementName', $('#TraitementName').val());
+                fd.append('TraitementStartDate', $('#TraitementStartDate').val());
+                fd.append('TraitmentDurationDays', $('#TraitmentDurationDays').val());
+                fd.append('OrdonnanceImage', document.querySelector("#inputGroupFile01").files[0]);
+                // console.log(formData);
+                $.ajax({
+                    url: '/addTraitement',
+                    type: 'post',
+                    data: fd,
+                    processData: false,
+                    contentType: false,                    
+                    dataType: 'json',
+                    success: (data) => {
+                        // console.log(data);
+                        let TraitementDom = $(`<div class="card">
+                                    <div class="card-header py-0" id="">
+                                        <h6> <small class="text-small text-secondary float-right font-"></small></h6>
+                                        <h2 class="mb-0">
+                                            <small class="btn btn-LINK-secondary btn-link btn-block text-left collapsed"
+                                                type="button" data-toggle="collapse"
+                                                data-target="" aria-expanded="false"
+                                                aria-controls=""></small>
+                                        </h2>
+                                    </div>
+                                    <div class="collapse" id=""
+                                        aria-labelledby="" data-parent="#TraitementsList">
+                                        <div class="card-body">
+                                            <p>
+                                                Durée du traitement : <strong></strong>
+                                            </p>
+                                            <p class="float-right">
+                                                <i class="fas fa-trash text-danger text-bold   btn btn-sm deleteTraitement"
+                                                    Traitement-id=""></i>
+                                                <a href="#" class="btn btn-secondary btn-sm" data-toggle="modal"
+                                                    data-target="">Voir Ordonnance</a>
+                                                <!-- Modal -->
+                                            <div class="modal fade" id="" tabindex="-1"
+                                                aria-labelledby=""
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="">Ordonnance
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img class="img-fluid rounded" src=""
+                                                                alt="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>`);
+
+                        $(TraitementDom).find('.card-header').attr('id', 'headingTwo_' + data
+                            .id);
+                        $(TraitementDom).find('.card-header h6 small').text('Depuis Le :' + data
+                            .Date_Debut);
+                        $(TraitementDom).find('.card-header h2 small').attr('data-target',
+                            '#collapseTwo_' + data.id);
+                        $(TraitementDom).find('.card-header h2 small').attr('aria-controls',
+                            'collapseTwo_' + data.id);
+                        $(TraitementDom).find('.card-header h2 small').text(data
+                        .Nom_Medicament);
+                        // console.log(data);
+                        $(TraitementDom).find('.collapse').attr('id', 'collapseTwo_' + data.id);
+                        $(TraitementDom).find('.collapse').attr('aria-labelledby',
+                            'headingTwo_' + data.id);
+                        $(TraitementDom).find('.card-body p:eq(0) strong').text(data.duree +
+                            'jours');
+                        $(TraitementDom).find('.fa-trash').attr('Traitement-id', data.id);
+                        $(TraitementDom).find('a.btn.btn-secondary').attr('data-target',
+                            '#OrdonnanceModal_' + data.id);
+                        $(TraitementDom).find('.modal').attr('id', 'OrdonnanceModal_' + data
+                        .id);
+                        $(TraitementDom).find('.modal').attr('aria-labelledby',
+                            'OrdonnanceModal_' + data.id + '_Label');
+                        $(TraitementDom).find('.modal .modal-title').attr('id',
+                            'OrdonnanceModal_' + data.id + '_Label');
+                        $(TraitementDom).find('.modal .modal-body img').attr('src',
+                            '/storage/Images/Ordonnances/' + data.ordonnance_path);
+                        $('#TraitementsList').append(TraitementDom);
+                        $(document).Toasts("create", {
+                            title: "Mobikisi",
+                            body: 'Traitement Ajouté',
+                            autohide: true,
+                            delay: 2000,
+                            class: "bg-success",
+                        });
+                        $('#modalAddTraitement').modal('toggle')
+                    }
+                });
+            });
+            $('#TraitementsSection .card').on('click', '.fa-trash', function(event) {
+                event.stopPropagation();
+                let formdata = {
+                    _token: $("meta[name=csrf-token]").attr("content"),
+                    'TraitementID': $(this).attr('Traitement-id'),
+                };
+                // alert();
+                $.ajax({
+                    url: '/deleteTraitement',
+                    type: 'post',
+                    data: formdata,
+                    error: (error) => {
+                        // console.log(error.responseText);
+                        $(document).Toasts("create", {
+                            title: "Mobikisi",
+                            body: error.responseText,
+                            autohide: true,
+                            delay: 2000,
+                            class: "bg-danger",
+                        });
+                    },
+                    success: (data) => {
+                        $(document).Toasts("create", {
+                            title: "Mobikisi",
+                            body: 'Traitement Supprimée',
+                            autohide: true,
+                            delay: 2000,
+                            class: "bg-success",
+                        });
+                        $(this).parents('.card').eq(0).remove();
                     }
                 });
             });
